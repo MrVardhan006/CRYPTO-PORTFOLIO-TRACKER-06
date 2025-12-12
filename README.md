@@ -83,6 +83,34 @@ Caesar encryption & decryption
 
 SHA-256 hashing support
 
+# Agile Project
+
+1 Dec 2025 
+
+-Started doing the web application
+
+-Gatherd the info need for the application 
+
+-Issue: Where to start the project 
+
+-Fixed: By the help of mentor 
+
+10 Dec 2025 
+
+-Completed backend API for portfolio tracking
+
+-Frontend dashboard integrated with api
+
+-Issue : API time delay for getting the coin info:optimised queries 
+
+15 Dec 2025
+
+-Added authentication module
+
+-Improved UI responsiveness
+
+-Issue: login bug fixed with session handling
+
 # Technologies Used:
 Backend:
 
