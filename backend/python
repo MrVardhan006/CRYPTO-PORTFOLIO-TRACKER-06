@@ -1,1 +1,1 @@
-all the backend file including database are present in this.
+all the backend file including database are present in this.Model.py file is a database file which uses SQLALchemy for storing.
