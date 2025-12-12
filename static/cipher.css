@@ -1,0 +1,135 @@
+:root {
+    --bg: #0b1220;
+    --panel: #0f1724;
+    --accent: #00d4ff;
+    --accent-2: #6a8cff;
+    --success: #21d07a;
+    --danger: #ff6b6b;
+    --muted: #9aa4b2;
+    --radius: 12px;
+    --shadow: 0 6px 18px rgba(2,6,23,0.6);
+}
+
+body {
+    margin: 0;
+    font-family: Inter, system-ui;
+    background: linear-gradient(180deg, #081028, #071129);
+    color: #e6eef8;
+    padding: 20px;
+}
+
+.header {
+    background: rgba(255,255,255,0.03);
+    padding: 15px 20px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+}
+.header h2 {
+    margin: 0;
+}
+
+.header .right-corner {
+  text-align: right;
+}
+
+.container {
+    max-width: 700px;
+    margin: 20px auto;
+    background: rgba(255,255,255,0.03);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+}
+
+label {
+    font-weight: bold;
+    margin-top: 12px;
+    display: block;
+    color: var(--muted);
+}
+
+textarea,
+input {
+    width: 100%;
+    padding: 12px;
+    margin-top: 6px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.05);
+    color: white;
+    font-size: 16px;
+}
+
+textarea::placeholder,
+input::placeholder {
+    color: rgba(255,255,255,0.4);
+}
+
+.option-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 8px 0;
+    font-size: 15px;
+    cursor: pointer;
+    color: #e6eef8;
+}
+
+.option-row input {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--accent);
+    cursor: pointer;
+}
+
+.choose-box {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 15px;
+    border-radius: 12px;
+    margin-top: 10px;
+}
+
+button {
+    margin-top: 18px;
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    color: #02111a;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+}
+
+button:hover {
+    opacity: 0.9;
+}
+.result-box {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(255,255,255,0.05);
+    border-left: 5px solid var(--accent);
+    border-radius: 8px;
+}
+
+.btn {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-left: 6px;
+}
+
+.btn.danger {
+  background: var(--danger);
+  color: #fff;
+}
+
+.no-underline {
+  text-decoration: none !important;
+}

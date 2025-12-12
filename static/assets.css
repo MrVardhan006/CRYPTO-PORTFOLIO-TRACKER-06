@@ -1,0 +1,115 @@
+:root {
+  --bg1: #0b142f;
+  --bg2: #102554;
+  --panel: rgba(255,255,255,0.06);
+  --accent: #00d4ff;
+  --accent-2: #6a8cff;
+  --danger: #ff6b6b;
+  --muted: #c8d1dd;
+  --radius: 12px;
+  --shadow: 0 6px 18px rgba(2,6,23,0.5);
+}
+
+body {
+  background: linear-gradient(180deg, var(--bg1), var(--bg2));
+  min-height: 100vh;
+  margin: 0;
+  font-family: Inter, system-ui;
+  color: #e6eef8;
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.header h1 {
+  margin: 0;
+}
+
+.btn.primary {
+  padding: 10px 16px;
+  background: var(--danger);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.assets-card {
+  max-width: 750px;
+  margin: auto;
+  background: var(--panel);
+  padding: 25px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.20);
+  border-radius: 10px;
+  color: white;
+  margin-bottom: 18px;
+}
+
+input::placeholder {
+  color: #b7c2d1;
+}
+
+.asset-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.asset-table th {
+  background: rgba(255,255,255,0.10);
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.asset-table td {
+  padding: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.09);
+}
+
+.asset-table tr:last-child td {
+  border-bottom: none;
+}
+
+.asset-table input[type="number"] {
+  width: 140px;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.asset-table input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+}
+
+button[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  font-weight: 700;
+  cursor: pointer;
+  color: #02111a;
+  font-size: 17px;
+}
