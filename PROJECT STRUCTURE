@@ -1,0 +1,29 @@
+crypto-portfolio-tracker-006/
+│
+├── app.py
+├── assets.py
+├── auth.py
+├── cipher.py
+├── dashboard.py
+├── models.py
+├── portfolio.py
+├── recommend.py
+├── wallet.py
+│
+│
+├── static/
+│   ├── assets.css
+│   ├── cipher.css
+│   ├── dashboard.css
+│   ├── index.css
+│   ├── portfolio.css
+│   ├── wallet.css
+│
+└── templates/
+    ├── assets.html
+    ├── cipher.html
+    ├── dashboard.html
+    ├── index.html
+    ├── portfolio.html
+    ├── recommend.html
+    ├── wallet.html
