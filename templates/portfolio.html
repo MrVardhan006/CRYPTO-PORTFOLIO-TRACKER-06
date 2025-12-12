@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Portfolio — Crypto Analysis</title>
+  <link rel="stylesheet" href="/static/portfolio.css">
+  <style>
+    .pl-positive { color: #21d07a; }
+    .pl-negative { color: #ff6b6b; }
+    .inline-form input { padding: 8px 10px; margin-right: 5px; width: 150px; }
+    .inline-form button { padding: 8px 12px; }
+    .cg-rate-limit { color: #b30000; text-align: center; font-weight: bold; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h2>Portfolio</h2>
+    <div>
+      <form method="POST" class="inline-form">
+        <input type="text" name="coinName" placeholder="Enter coin name, symbol, or ID" required>
+        <input type="number" step="any" name="coinAmount" placeholder="Amount" required>
+        <input type="number" step="any" name="buyPrice" placeholder="Buy Price (INR)" required>
+        <button type="submit" class="btn primary">Add Coin</button>
+      </form>
+      <a href="/dashboard" class="btn danger no-underline">Back</a>
+    </div>
+  </div>
+  <div class="card">
+    <div class="muted">Total Portfolio Value</div>
+    <div class="value-box">₹{{ total_value | default(0) | round(2) }}</div>
+    <div class="muted">
+      Overall P/L:
+      <span class="{% if overall_pl >= 0 %}pl-positive{% else %}pl-negative{% endif %}">
+        ₹{{ overall_pl | default(0) | round(2) }}
+      </span>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Portfolio Breakdown</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Coin</th>
+          <th>Amount</th>
+          <th>Buy Price</th>
+          <th>Current Price</th>
+          <th>Total Value</th>
+          <th>P/L</th>
+          <th>P/L %</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if prices.get('status', {}).get('error_code') == 429 %}
+          <tr><td colspan="8" class="cg-rate-limit">CoinGecko API rate limit exceeded. Please wait a few minutes and try again.</td></tr>
+        {% endif %}
+        {% if portfolio %}
+          {% for item in portfolio %}
+          <tr>
+            <td>{{ item.id }}</td>
+            <td>
+              <form method="POST" action="/portfolio/edit/{{ item.db_id }}" class="inline-form">
+                <input type="number" step="any" name="coinAmount" value="{{ item.amount }}" required placeholder="Amount" title="Edit amount">
+            </td>
+            <td>
+                <input type="number" step="any" name="buyPrice" value="{{ item.buy }}" required placeholder="Buy Price (INR)" title="Edit buy price">
+                <button class="btn primary">Edit</button>
+              </form>
+            </td>
+            <td>
+              {% if item.price is not none and item.price >= 0.01 %}
+                ₹{{ item.price | round(2) }}
+              {% elif item.price is not none %}
+                ₹{{ '%.8f' % item.price }}
+              {% else %}
+                N/A
+              {% endif %}
+            </td>
+            <td>
+              {% if item.total_value is not none and item.total_value >= 0.01 %}
+                ₹{{ item.total_value | round(2) }}
+              {% elif item.total_value is not none %}
+                ₹{{ '%.8f' % item.total_value }}
+              {% else %}
+                N/A
+              {% endif %}
+            </td>
+            <td class="{% if item.pl is not none and item.pl >= 0 %}pl-positive{% elif item.pl is not none %}pl-negative{% endif %}">{% if item.pl is not none %}₹{{ item.pl | round(2) }}{% else %}N/A{% endif %}</td>
+            <td>{% if item.pl_pct is not none %}{{ item.pl_pct | round(2) }}%{% else %}N/A{% endif %}</td>
+            <td>
+              <form method="POST" action="/portfolio/remove/{{ item.db_id }}" class="inline-form">
+                <button type="submit" class="btn danger">Remove</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        {% else %}
+          <tr><td colspan="8">No coins in portfolio.</td></tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+  <div class="chart-row">
+    {% if pie_chart %}
+      <img src="data:image/png;base64,{{ pie_chart }}" alt="Pie Chart" class="portfolio-chart-img">
+    {% endif %}
+    {% if bar_chart %}
+      <img src="data:image/png;base64,{{ bar_chart }}" alt="Bar Chart" class="portfolio-chart-img">
+    {% endif %}
+  </div>
+</div>
+</body>
+</html>

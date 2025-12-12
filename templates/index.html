@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Crypto Portfolio Webpage — Login</title>
+
+    <link rel="stylesheet" href="/static/index.css" />
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="card" role="main">
+        <div>
+          <h1>Sign in or create an account</h1>
+          <p class="lead">Secure login with backend authentication.</p>
+          <div class="tabs">
+            <button
+              id="tab-login"
+              class="tab active"
+              type="button"
+              onclick="document.getElementById('login-form').classList.remove('hidden');document.getElementById('register-form').classList.add('hidden');"
+            >
+              Login
+            </button>
+            <button
+              id="tab-register"
+              class="tab"
+              type="button"
+              onclick="document.getElementById('register-form').classList.remove('hidden');document.getElementById('login-form').classList.add('hidden');"
+            >
+              Register
+            </button>
+          </div>
+          <form
+            id="login-form"
+            method="POST"
+            action="/login"
+            {%
+            if
+            reg_msg
+            %}class="hidden"
+            {%
+            endif
+            %}
+          >
+            <label for="login-username">Username</label>
+            <input id="login-username" name="username" required />
+            <label for="login-password">Password</label>
+            <input
+              id="login-password"
+              name="password"
+              type="password"
+              required
+            />
+            <div class="actions">
+              <button type="submit">Sign in</button>
+              <button
+                id="to-register"
+                type="button"
+                class="ghost"
+                onclick="document.getElementById('register-form').classList.remove('hidden');document.getElementById('login-form').classList.add('hidden');"
+              >
+                Create account
+              </button>
+            </div>
+            {% if login_msg %}
+            <p class="small muted">{{ login_msg }}</p>
+            {% endif %}
+          </form>
+          <form
+            id="register-form"
+            method="POST"
+            action="/register"
+            {%
+            if
+            reg_msg
+            %}class=""
+            {%
+            else
+            %}class="hidden"
+            {%
+            endif
+            %}
+          >
+            <label for="reg-name">Name</label>
+            <input id="reg-name" name="name" required />
+            <label for="reg-username">Username</label>
+            <input id="reg-username" name="username" required />
+            <label for="reg-email">Email</label>
+            <input id="reg-email" name="email" type="email" required />
+            <label for="reg-mobilenumber">Mobile Number</label>
+            <input
+              id="reg-mobilenumber"
+              name="mobilenumber"
+              type="tel"
+              required
+            />
+            <label for="reg-password">Password</label>
+            <input id="reg-password" name="password" type="password" required />
+            <div class="actions">
+              <button type="submit">Create account</button>
+              <button
+                id="to-login"
+                type="button"
+                class="ghost"
+                onclick="document.getElementById('login-form').classList.remove('hidden');document.getElementById('register-form').classList.add('hidden');"
+              >
+                Back to login
+              </button>
+            </div>
+            {% if reg_msg %}
+            <p class="small muted">{{ reg_msg }}</p>
+            {% endif %}
+          </form>
+        </div>
+        <div class="right">
+          <div id="session-actions">
+            <a href="/dashboard" class="btn primary">Skip</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

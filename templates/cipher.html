@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Caesar Cipher & SHA-256 Hash</title>
+    <link rel="stylesheet" href="/static/cipher.css" />
+  </head>
+
+  <body>
+    <div class="header">
+      <h2>Caesar Cipher & SHA-256 Hash</h2>
+      <div class="right-corner">
+        <a href="/dashboard" class="btn danger no-underline">Back</a>
+      </div>
+    </div>
+
+    <div class="container">
+      <h3>Encrypt / Decrypt Text / Generate SHA-256 Hash</h3>
+
+      <form method="POST">
+        <label>Enter Text:</label>
+        <textarea name="inputText" rows="3" placeholder="Type your message...">{{ request.form.inputText or '' }}</textarea>
+
+        <label>Shift Value:</label>
+        <input type="number" name="shiftValue" placeholder="Enter shift value" value="{{ request.form.shiftValue or '' }}" />
+
+        <label>Select Options:</label>
+        <div class="choose-box">
+          <label class="option-row">
+            <input type="checkbox" name="options" value="encrypt" {% if 'encrypt' in request.form.getlist('options') %}checked{% endif %} /> Encrypt
+          </label>
+          <label class="option-row">
+            <input type="checkbox" name="options" value="decrypt" {% if 'decrypt' in request.form.getlist('options') %}checked{% endif %} /> Decrypt
+          </label>
+          <label class="option-row">
+            <input type="checkbox" name="options" value="hash" {% if 'hash' in request.form.getlist('options') %}checked{% endif %} /> Generate SHA-256 Hash
+          </label>
+        </div>
+
+        <button type="submit">Process</button>
+      </form>
+
+      {% if results %}
+      <div class="result-box">
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr>
+            <th style="text-align:left; padding: 6px 8px;">Type</th>
+            <th style="text-align:left; padding: 6px 8px;">Result</th>
+          </tr>
+          {% for type, value in results.items() %}
+          <tr>
+            <td>{{ type }}</td>
+            <td>{{ value }}</td>
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
+      {% endif %}
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="flashes">
+            {% for category, message in messages %}
+              <div class="{{ category }}">{{ message }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+    </div>
+  </body>
+</html>

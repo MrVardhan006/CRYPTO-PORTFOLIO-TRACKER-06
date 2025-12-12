@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/static/assets.css" />
+    <title>Assets</title>
+  </head>
+
+  <body>
+    <div class="header">
+      <h1>My Assets</h1>
+      <button
+        class="btn primary"
+        onclick="location.href='/dashboard'"
+        type="button"
+      >
+        Back
+      </button>
+    </div>
+
+    <div class="assets-card">
+      <form method="POST" action="/total_assets">
+        <label for="initial_investment">Initial Investment Amount:</label>
+        <input
+          type="number"
+          id="initial_investment"
+          name="initial_investment"
+          required
+        />
+
+        <label for="years">Number of Years:</label>
+        <input type="number" id="years" name="years" required />
+
+        <h3>Select Assets and Enter Details:</h3>
+
+        <div class="asset-table-box">
+          <table class="asset-table">
+            <thead>
+              <tr>
+                <th>Select</th>
+                <th>Asset</th>
+                <th>Allocation (%)</th>
+                <th>Return (%)</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td>
+                  <input
+                    type="checkbox"
+                    name="assets"
+                    value="Stocks"
+                    title="Select Stocks asset"
+                    placeholder="Select Stocks"
+                  />
+                </td>
+                <td>Stocks</td>
+                <td>
+                  <input
+                    type="number"
+                    name="allocation_Stocks"
+                    placeholder="%"
+                  />
+                </td>
+                <td>
+                  <input type="number" name="return_Stocks" placeholder="%" />
+                </td>
+              </tr>
+
+              <tr>
+                <td>
+                  <input
+                    type="checkbox"
+                    name="assets"
+                    value="Bonds"
+                    title="Select Bonds asset"
+                    placeholder="Select Bonds"
+                  />
+                </td>
+                <td>Bonds</td>
+                <td>
+                  <input
+                    type="number"
+                    name="allocation_Bonds"
+                    placeholder="%"
+                  />
+                </td>
+                <td>
+                  <input type="number" name="return_Bonds" placeholder="%" />
+                </td>
+              </tr>
+
+              <tr>
+                <td>
+                  <input
+                    type="checkbox"
+                    name="assets"
+                    value="Mutual Funds"
+                    title="Select Mutual Funds asset"
+                    placeholder="Select Mutual Funds"
+                  />
+                </td>
+                <td>Mutual Funds</td>
+                <td>
+                  <input
+                    type="number"
+                    name="allocation_MutualFunds"
+                    placeholder="%"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    name="return_MutualFunds"
+                    placeholder="%"
+                  />
+                </td>
+              </tr>
+
+              <tr>
+                <td>
+                  <input
+                    type="checkbox"
+                    name="assets"
+                    value="Gold"
+                    title="Select Gold asset"
+                    placeholder="Select Gold"
+                  />
+                </td>
+                <td>Gold</td>
+                <td>
+                  <input type="number" name="allocation_Gold" placeholder="%" />
+                </td>
+                <td>
+                  <input type="number" name="return_Gold" placeholder="%" />
+                </td>
+              </tr>
+
+              <tr>
+                <td>
+                  <input
+                    type="checkbox"
+                    name="assets"
+                    value="Cash"
+                    title="Select Cash asset"
+                    placeholder="Select Cash"
+                  />
+                </td>
+                <td>Cash</td>
+                <td>
+                  <input type="number" name="allocation_Cash" placeholder="%" />
+                </td>
+                <td>
+                  <input type="number" name="return_Cash" placeholder="%" />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <button type="submit">Total Asset</button>
+
+        {% if error %}
+        <p class="assets-error">{{ error }}</p>
+        {% endif %} {% if final_value is not none and gain is not none %}
+        <h3>Portfolio Growth Over {{ years }} Years</h3>
+        {% if graph_url %}
+        <img
+          src="data:image/png;base64,{{ graph_url }}"
+          alt="Portfolio Growth Graph"
+          class="assets-chart-img"
+        />
+        {% endif %}
+        <p>Final Assets Value: ₹{{ final_value|default(0)|round(2) }}</p>
+        <p>Total Gain/Loss: ₹{{ gain|default(0)|round(2) }}</p>
+        {% endif %}
+      </form>
+    </div>
+  </body>
+</html>

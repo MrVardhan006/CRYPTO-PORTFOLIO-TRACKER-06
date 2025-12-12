@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Crypto Wallet</title>
+    <link rel="stylesheet" href="/static/portfolio.css" />
+    <style>
+      .error-card {
+        border-left: 4px solid red;
+      }
+      .cg-rate-limit {
+        color: #b30000;
+        text-align: center;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Crypto Wallet</h1>
+        <a href="/dashboard" class="btn danger no-underline">Back</a>
+      </div>
+      {% if error %}
+      <div class="card error-card">{{ error }}</div>
+      {% endif %}
+      <div class="card">
+        <h3>Add Coin</h3>
+        <form method="POST">
+          <input
+            type="text"
+            name="coin_id"
+            placeholder="btc / bitcoin / sol / solana"
+            required
+          />
+          <input
+            type="number"
+            step="any"
+            name="quantity"
+            placeholder="Quantity"
+            required
+          />
+          <button type="submit" class="btn primary">Add</button>
+        </form>
+      </div>
+      {% if wallet %}
+      <div class="card">
+        <h2>Your Wallet</h2>
+        <table>
+          <tr>
+            <th>Coin</th>
+            <th>Quantity</th>
+            <th>INR Price</th>
+            <th>Total Value</th>
+            <th>Actions</th>
+          </tr>
+          {% if prices.get('status', {}).get('error_code') == 429 %}
+          <tr>
+            <td colspan="5" class="cg-rate-limit">
+              CoinGecko API rate limit exceeded. Please wait a few minutes and
+              try again.
+            </td>
+          </tr>
+          {% endif %} {% for coin, data in wallet.items() %} {% set qty =
+          data[0] %} {% set cid = data[1] %}
+          <tr>
+            <td>{{ coin }}</td>
+            <td>
+              <form method="POST" class="inline-form">
+                <input type="hidden" name="coin_id" value="{{ coin }}" />
+                <input
+                  type="number"
+                  step="any"
+                  name="quantity"
+                  value="{{ qty }}"
+                  placeholder="Edit quantity"
+                  title="Edit quantity"
+                />
+                <button type="submit" class="btn primary">Edit</button>
+              </form>
+            </td>
+            <td>
+              {% set price = prices.get(cid, {}).get("inr") %} {% if price is
+              not none %} {% if price >= 0.01 %} {{ price | round(2) }} {% else
+              %} {{ '%.8f' % price }} {% endif %} {% else %} N/A {% endif %}
+            </td>
+            <td>
+              {% if prices.get(cid, {}).get("inr") %} {% set value =
+              prices[cid]["inr"] * qty %} {% if value >= 0.01 %} {{ value |
+              round(2) }} {% else %} {{ '%.8f' % value }} {% endif %} {% else %}
+              N/A {% endif %}
+            </td>
+            <td>
+              <form method="POST" class="inline-form">
+                <input type="hidden" name="remove_coin" value="{{ cid }}" />
+                <button type="submit" class="btn danger">Remove</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+        <div class="value-box">
+          <strong>Total Wallet Value:</strong> ₹ {{ total | round(2) }}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </body>
+</html>
