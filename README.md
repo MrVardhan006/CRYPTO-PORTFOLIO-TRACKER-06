@@ -1,9 +1,10 @@
-CRYPTO PORTFOLIO TRACKER
+# CRYPTO PORTFOLIO TRACKER
+
 By YAGANTI SREEVARDHAN REDDY
 
 (Project Duration: October 15,2025 – DECEMBER 15,2025)
 
-About This Project:
+# About This Project:
 
 Crypto Portfolio Tracker is a full-stack Flask web application that allows users to:
 
@@ -21,7 +22,7 @@ Perform encryption/decryption using a built-in Cipher tool and hashing
 
 This project demonstrates backend development, API handling, data processing, authentication, visualization, and UI/UX design.
 
- Project Modules:
+ # Project Modules:
 	Module Name	Description	of	Files:
 
 1	Authentication System	User Registration, Login, Session Management	Flask, SQLAlchemy	auth.py
@@ -40,7 +41,7 @@ This project demonstrates backend development, API handling, data processing, au
 
 8	Frontend UI	Complete Dark-Mode Neon Web UI	HTML, CSS	static/ & templates/
 
- Key Features:
+ #Key Features:
  Secure Authentication:
 
 User login, logout, and session handling
@@ -82,7 +83,7 @@ Caesar encryption & decryption
 
 SHA-256 hashing support
 
- Technologies Used:
+# Technologies Used:
 Backend:
 
 Flask • Python • SQLAlchemy • Flask-Login • Matplotlib • PyCoinGecko
