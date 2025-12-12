@@ -1,0 +1,41 @@
+
+Crypto Portfolio Tracker — Flask + CoinGecko API  
+A powerful full-stack cryptocurrency portfolio manager built using Flask, SQL, Matplotlib, and the CoinGecko API.  
+This project lets users track real-time crypto prices, manage their portfolio, view charts, track their coind, check wallet balance, and more.
+
+Features
+
+Authentication (Flask-Login)
+- User Registration  
+- Login / Logout  
+- Secure session handling  
+
+Portfolio Manager
+- Add crypto with buy price & quantity  
+- Automatic INR price fetch  
+- Live Profit / Loss & P/L %  
+- Edit or delete portfolio entries  
+- Bar charts & pie charts for portfolio visualization  
+
+Wallet Tracker
+- Add coins to wallet  
+- Automatic live INR rates  
+- Inline quantity editing  
+- Total wallet value calculation  
+
+Dashboard
+- Real-time market prices  
+- Coin stats  
+- Quick navigation to all sections  
+
+Trending Coins
+- Fetches top trending coins from CoinGecko  
+
+Recommended Coins
+- Ranks top coins by market cap & volume  
+- Includes sparkline charts generated via Matplotlib  
+- Fetches live market data using the CoinGecko API  
+
+Caesar Cipher Tool
+- Encrypt and decrypt messages  
+Hashing preview  
