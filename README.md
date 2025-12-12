@@ -103,7 +103,7 @@ SHA-256 hashing support
 
 -Issue : API time delay for getting the coin info:optimised queries 
 
-15 Dec 2025
+13 Dec 2025
 
 -Added authentication module
 
