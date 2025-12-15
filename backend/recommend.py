@@ -4,9 +4,7 @@ from flask_login import login_required
 import base64
 import matplotlib.pyplot as plt
 from io import BytesIO
-
 bp = Blueprint('recommend', __name__)
-
 @bp.route('/recommend')
 @login_required
 def recommend():
@@ -17,9 +15,9 @@ def recommend():
         'order': 'market_cap_desc',
         'per_page': 100,
         'page': 1,
-        'sparkline': 'true'
+        'sparkline': 'true',
+        'price_change_percentage': '7d' 
     }
-
     try:
         res = requests.get(url, params=params, timeout=10)
         res.raise_for_status() 
@@ -28,20 +26,22 @@ def recommend():
         if not isinstance(coins, list):
             print("Unexpected API response:", coins)
             coins = []
-
-        recommended = [coin for coin in coins if coin.get('price_change_percentage_24h') is not None and coin.get('price_change_percentage_24h') > 1.5]
+        recommended = [
+            coin for coin in coins 
+            if coin.get('price_change_percentage_7d_in_currency') is not None 
+            and coin.get('price_change_percentage_7d_in_currency') > 2.0
+        ]
         recommended = sorted(
             recommended,
             key=lambda c: (c.get('market_cap', 0), c.get('total_volume', 0)),
             reverse=True
         )[:10]
-
         for coin in recommended:
             sparkline = coin.get('sparkline_in_7d', {}).get('price', [])
             if sparkline:
                 try:
                     fig, ax = plt.subplots(figsize=(2, 0.5))
-                    color = '#21d07a' if (coin.get('price_change_percentage_24h') or 0) > 0 else '#ff6b6b'
+                    color = '#21d07a' if (coin.get('price_change_percentage_7d_in_currency') or 0) > 0 else '#ff6b6b'
                     ax.plot(sparkline, color=color)
                     ax.axis('off')
                     buf = BytesIO()
@@ -54,13 +54,10 @@ def recommend():
                     coin['sparkline_img'] = ''
             else:
                 coin['sparkline_img'] = ''
-
     except requests.exceptions.RequestException as e:
         print("Error fetching data from CoinGecko:", e)
         recommended = []
-
     except Exception as e:
         print("Unexpected error:", e)
         recommended = []
-
     return render_template('recommend.html', recommended=recommended)
