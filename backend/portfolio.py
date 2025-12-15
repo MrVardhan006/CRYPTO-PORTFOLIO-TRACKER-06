@@ -8,9 +8,7 @@ import base64
 import os
 import json
 import time
-
 bp = Blueprint('portfolio', __name__)
-
 COINS_CACHE = os.path.join(os.path.dirname(__file__), 'coingecko_coins_cache.json')
 CACHE_MAX_AGE = 60 * 60 * 24 
 COINGECKO_COINS = []
@@ -36,11 +34,9 @@ except Exception as e:
     else:
         COINGECKO_COINS = []
         print(f"[ERROR] Could not fetch or load CoinGecko coins list: {e}")
-
 SYMBOL_MAP = {c['symbol'].lower(): c['id'] for c in COINGECKO_COINS}
 NAME_MAP   = {c['name'].lower(): c['id'] for c in COINGECKO_COINS}
 ID_MAP     = {c['id'].lower(): c['id'] for c in COINGECKO_COINS}
-
 def normalize_coin(text):
     t = text.strip().lower()
     if t in ID_MAP:
@@ -55,7 +51,6 @@ def normalize_coin(text):
         if t in c['name'].strip().lower() or t in c['id'].strip().lower():
             return c['id']
     return None
-
 def fetch_prices_batch(coin_ids):
     if not coin_ids:
         return {}
@@ -74,7 +69,6 @@ def fetch_prices_batch(coin_ids):
     except Exception as e:
         print(f"[ERROR] CoinGecko price fetch failed: {e}")
         return {}
-
 @bp.route('/portfolio', methods=['GET', 'POST'])
 @login_required
 def portfolio_page():
@@ -158,7 +152,6 @@ def portfolio_page():
                            overall_pl=overall_pl,
                            pie_chart=pie_chart,
                            bar_chart=bar_chart)
-
 @bp.route('/portfolio/edit/<int:item_id>', methods=['POST'])
 @login_required
 def edit_coin(item_id):
@@ -179,7 +172,6 @@ def edit_coin(item_id):
     db.session.commit()
     flash(f'{item.coin_id.upper()} updated successfully!', 'success')
     return redirect(url_for('portfolio.portfolio_page'))
-
 @bp.route('/portfolio/remove/<int:item_id>', methods=['POST'])
 @login_required
 def remove_coin(item_id):
