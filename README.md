@@ -120,7 +120,7 @@ Flask • Python • SQLAlchemy • Flask-Login • Matplotlib • PyCoinGecko
 
 Frontend:
 
-HTML • CSS • JavaScript • Neon Dark Theme
+HTML • CSS •Dark Theme
 
 Database:
 SQLite (default) — easily extendable to PostgreSQL/MySQL
