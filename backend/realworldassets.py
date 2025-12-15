@@ -8,15 +8,10 @@ import time
 import matplotlib.pyplot as plt
 from io import BytesIO
 import base64
-
 bp = Blueprint("realworldassets", __name__, url_prefix="/realworldassets")
-
-# Cache configuration
 COINS_CACHE = os.path.join(os.path.dirname(__file__), "coingecko_coins_cache.json")
-CACHE_MAX_AGE = 60 * 60 * 24  # 24 hours
+CACHE_MAX_AGE = 60 * 60 * 24 
 COINGECKO_COINS = []
-
-# Load or fetch CoinGecko coins
 try:
     cache_exists = os.path.exists(COINS_CACHE)
     cache_fresh = cache_exists and (time.time() - os.path.getmtime(COINS_CACHE) < CACHE_MAX_AGE)
@@ -37,13 +32,9 @@ except Exception as e:
     else:
         COINGECKO_COINS = []
         print(f"[ERROR] Could not fetch or load CoinGecko coins list: {e}")
-
-# Maps for lookup
 SYMBOL_MAP = {c["symbol"].lower(): c["id"] for c in COINGECKO_COINS}
 NAME_MAP = {c["name"].lower(): c["id"] for c in COINGECKO_COINS}
 ID_MAP = {c["id"].lower(): c["id"] for c in COINGECKO_COINS}
-
-
 def normalize_coin(text):
     t = text.strip().lower()
     if t in ID_MAP:
@@ -52,15 +43,12 @@ def normalize_coin(text):
         return SYMBOL_MAP[t]
     if t in NAME_MAP:
         return NAME_MAP[t]
-    # fallback: partial match
     for c in COINGECKO_COINS:
         if t.replace(" ", "") == c["name"].lower().replace(" ", ""):
             return c["id"]
         if t in c["name"].lower() or t in c["id"].lower():
             return c["id"]
     return None
-
-
 def fetch_prices_batch(coin_ids):
     if not coin_ids:
         return {}
@@ -72,8 +60,6 @@ def fetch_prices_batch(coin_ids):
     except Exception as e:
         print("[ERROR] CoinGecko price fetch failed:", e)
         return {}
-
-
 @bp.route("/", methods=["GET", "POST"])
 @login_required
 def realworldassets_page():
@@ -81,33 +67,25 @@ def realworldassets_page():
         name = request.form.get("name").strip()
         coin_input = request.form.get("coin_id").strip()
         quantity = request.form.get("quantity", type=float)
-
         if not name or not coin_input or quantity is None:
             flash("All fields are required!", "error")
             return redirect(url_for("realworldassets.realworldassets_page"))
-
         coin_id = normalize_coin(coin_input)
         if not coin_id:
             flash(f"Coin '{coin_input}' not recognized. Use CoinGecko ID, symbol, or name.", "error")
             return redirect(url_for("realworldassets.realworldassets_page"))
-
         asset = RealWorldAsset(user_id=current_user.id, name=name, coin_id=coin_id, quantity=quantity)
         db.session.add(asset)
         db.session.commit()
-
         flash(f"{name} ({coin_id}) added successfully!", "success")
         return redirect(url_for("realworldassets.realworldassets_page"))
-
-    # GET request: show assets
     assets = RealWorldAsset.query.filter_by(user_id=current_user.id).all()
     coin_ids = [a.coin_id for a in assets]
     prices = fetch_prices_batch(coin_ids)
-
     asset_data = []
     total_value = 0
     labels = []
     values = []
-
     for asset in assets:
         price = prices.get(asset.coin_id, {}).get("inr", 0)
         value = asset.quantity * price
@@ -121,8 +99,6 @@ def realworldassets_page():
         })
         labels.append(asset.name)
         values.append(value)
-
-    # Generate pie chart
     pie_chart = bar_chart = None
     if values and sum(values) > 0:
         plt.figure(figsize=(4, 4))
@@ -132,7 +108,6 @@ def realworldassets_page():
         plt.close()
         pie_chart = base64.b64encode(buf.getvalue()).decode("utf-8")
 
-        # Bar chart
         plt.figure(figsize=(5, 4))
         plt.bar(labels, values, color="skyblue")
         plt.ylabel("Value (INR)")
@@ -140,7 +115,6 @@ def realworldassets_page():
         plt.savefig(buf2, format="png", bbox_inches="tight", pad_inches=0.1)
         plt.close()
         bar_chart = base64.b64encode(buf2.getvalue()).decode("utf-8")
-
     return render_template(
         "realworldassets.html",
         assets=asset_data,
@@ -148,8 +122,6 @@ def realworldassets_page():
         pie_chart=pie_chart,
         bar_chart=bar_chart
     )
-
-
 @bp.route("/delete/<int:asset_id>")
 @login_required
 def delete_realworldasset(asset_id):
