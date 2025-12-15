@@ -16,6 +16,7 @@ Portfolio Manager
 - Live Profit / Loss & P/L %  
 - Edit or delete portfolio entries  
 - Bar charts & pie charts for portfolio visualization  
+
 Real World Assets Manager
 -Add real-world assets with name, CoinGecko ID, and quantity
 -Fetch live prices in INR from CoinGecko API
