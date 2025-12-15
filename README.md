@@ -43,7 +43,7 @@ This project demonstrates backend development, API handling, data processing, au
 
 9	Frontend UI	Complete Dark-Mode Neon Web UI	HTML, CSS	static/ & templates/
 
- #Key Features:
+ # Key Features:
  Secure Authentication:
 
 User login, logout, and session handling
