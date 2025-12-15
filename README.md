@@ -33,13 +33,15 @@ This project demonstrates backend development, API handling, data processing, au
 
 4	Wallet Manager	wallet support, live valuation	CoinGecko API	wallet.py
 
-5	Recommendation Engine	Suggests coins based on 24h performance	Python, Matplotlib	recommend.py
+5	Recommendation Engine	Suggests coins based on 7d performance	Python, Matplotlib	recommend.py
 
 6	Cipher Tool	Caesar Encryption, Decryption, SHA-256 hashing	Python, Hashlib	cipher.py
 
 7	Database Models	User, PortfolioItem, WalletItem models	SQLAlchemy	models.py
 
-8	Frontend UI	Complete Dark-Mode Neon Web UI	HTML, CSS	static/ & templates/
+8   Real world assests live valuation	CoinGecko API realworldassets.py
+
+9	Frontend UI	Complete Dark-Mode Neon Web UI	HTML, CSS	static/ & templates/
 
  #Key Features:
  Secure Authentication:
