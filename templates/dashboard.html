@@ -9,12 +9,13 @@
   <body class="page">
     <header class="site-header">
       {% if user_name %}
-      <div class="hello-user">Hello, {{ user_name }}</div>
+        <div class="hello-user">Hello, {{ user_name }}</div>
       {% endif %}
       <h2 class="brand">Crypto Currency</h2>
       <div>
         <a href="/wallet" class="btn primary" id="openWalletTop">Wallet</a>
-        <a href="/assets" class="btn primary" id="openAssetsTop">Assets</a>
+        <a href="/assets" class="btn primary" id="openAssetsTop">Assets Calculation</a>
+        <a href="/realworldassets" class="btn primary">Real World Assets</a>
         <a href="/cipher" class="btn primary" id="openCaesarCipherTop">Caesar Cipher</a>
         <a href="/portfolio" class="btn primary" id="openPortfolioTop">Portfolio</a>
         <a href="/recommend" class="btn primary" id="openRecommendTop">Recommend</a>
@@ -34,34 +35,30 @@
           />
           <button type="submit" class="btn primary search-btn">Search</button>
         </form>
+
         <div class="pager">
           {% if prev_page %}
-          <a
-            href="/dashboard?page={{ prev_page }}{% if search %}&search={{ search }}{% endif %}"
-            class="btn primary"
-            >Prev</a
-          >
+            <a href="/dashboard?page={{ prev_page }}{% if search %}&search={{ search }}{% endif %}" class="btn primary">Prev</a>
           {% endif %}
           <span>Page {{ page }}</span>
           {% if coins|length == 20 %}
-          <a
-            href="/dashboard?page={{ next_page }}{% if search %}&search={{ search }}{% endif %}"
-            class="btn primary"
-            >Next</a
-          >
+            <a href="/dashboard?page={{ next_page }}{% if search %}&search={{ search }}{% endif %}" class="btn primary">Next</a>
           {% endif %}
         </div>
       </div>
-      <table class="crypto-table">
-        {% if api_error %}
+
+      {% if api_error %}
         <div class="cg-rate-limit">{{ api_error }}</div>
-        {% endif %}
+      {% endif %}
+
+      <table class="crypto-table">
         <thead>
           <tr>
             <th>Rank</th>
             <th>Coin</th>
             <th>Price (INR)</th>
             <th>24h %</th>
+            <th>7d %</th>
             <th>Market Cap</th>
             <th>Volume (24h)</th>
             <th>Circulating Supply</th>
@@ -69,89 +66,56 @@
           </tr>
         </thead>
         <tbody>
-          {% if coins %} {% for coin in coins %}
-          <tr>
-            <td>{{ (page - 1) * 20 + loop.index }}</td>
-            <td>
-              <div class="coin-info">
-                <img
-                  src="{{ coin.image }}"
-                  width="22"
-                  alt="{{ coin.name }} logo"
-                />
-                <div>
-                  <strong>{{ coin.name }}</strong><br />
-                  <span class="coin-symbol">{{ coin.symbol|upper }}</span>
-                </div>
-              </div>
-            </td>
-            <td>₹{{ '{:,.2f}'.format(coin.current_price) }}</td>
-            <td>
-              <span
-                class="{{ 'positive' if (coin.price_change_percentage_24h or 0) > 0 else 'negative' }}"
-              >
-                {{ '{:.2f}'.format(coin.price_change_percentage_24h if
-                coin.price_change_percentage_24h is not none else 0) }}%
-              </span>
-            </td>
-            <td>
-              ₹{{ '{:,.0f}'.format(coin.market_cap if coin.market_cap is not
-              none else 0) }}
-            </td>
-            <td>
-              ₹{{ '{:,.0f}'.format(coin.total_volume if coin.total_volume is not
-              none else 0) }}
-            </td>
-            <td>
-              {{ '{:,.0f}'.format(coin.circulating_supply if coin.circulating_supply is not none else 0) }}
-            </td>
-            <td class="trend-cell">
-              <div class="trend-graph">
-                <img
-                  src="data:image/png;base64,{{ coin.sparkline_img }}"
-                  class="trend-img"
-                  alt="Sparkline for {{ coin.name }}"
-                />
-              </div>
-            </td>
-          </tr>
-          {% endfor %} {% else %}
-          <tr>
-            <td colspan="7" class="empty-coins">
-              No coins data available. Please try again later.
-            </td>
-          </tr>
+          {% if coins %}
+            {% for coin in coins %}
+              <tr>
+                <td>{{ (page - 1) * 20 + loop.index }}</td>
+                <td>
+                  <div class="coin-info">
+                    <img src="{{ coin.image }}" width="22" alt="{{ coin.name }} logo" />
+                    <div>
+                      <strong>{{ coin.name }}</strong><br />
+                      <span class="coin-symbol">{{ coin.symbol|upper }}</span>
+                    </div>
+                  </div>
+                </td>
+                <td>₹{{ '{:,.2f}'.format(coin.current_price) }}</td>
+                <td>
+                  <span class="{{ 'positive' if (coin.price_change_percentage_24h or 0) > 0 else 'negative' }}">
+                    {{ '{:.2f}'.format(coin.price_change_percentage_24h or 0) }}%
+                  </span>
+                </td>
+                <td>
+                  <span class="{{ 'positive' if (coin.price_change_percentage_7d_in_currency or 0) > 0 else 'negative' }}">
+                    {{ '{:.2f}'.format(coin.price_change_percentage_7d_in_currency or 0) }}%
+                  </span>
+                </td>
+                <td>₹{{ '{:,.0f}'.format(coin.market_cap or 0) }}</td>
+                <td>₹{{ '{:,.0f}'.format(coin.total_volume or 0) }}</td>
+                <td>{{ '{:,.0f}'.format(coin.circulating_supply or 0) }}</td>
+                <td class="trend-cell">
+                  <div class="trend-graph">
+                    <img src="data:image/png;base64,{{ coin.sparkline_img }}" class="trend-img" alt="Sparkline for {{ coin.name }}" />
+                  </div>
+                </td>
+              </tr>
+            {% endfor %}
+          {% else %}
+            <tr>
+              <td colspan="9" class="empty-coins">No coins data available. Please try again later.</td>
+            </tr>
           {% endif %}
         </tbody>
       </table>
     </main>
-    <style>
-      .coin-info {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-      .coin-symbol {
-        font-size: 12px;
-        color: var(--muted);
-      }
-      .positive {
-        color: #21d07a;
-      }
-      .negative {
-        color: #ff6b6b;
-      }
-      .empty-coins {
-        text-align: center;
-        color: #888;
-      }
-    </style>
+
     <script>
       document.getElementById("logoutBtn").onclick = () => {
         localStorage.removeItem("auth");
         location.href = "/";
       };
-      setTimeout(function() {
+
+      setTimeout(() => {
         window.location.reload();
       }, 20000);
     </script>
