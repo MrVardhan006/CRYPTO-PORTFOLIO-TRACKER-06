@@ -35,9 +35,6 @@ Dashboard
 - Coin stats  
 - Quick navigation to all sections  
 
-Trending Coins
-- Fetches top trending coins from CoinGecko  
-
 Recommended Coins
 - Ranks top coins by market cap & volume  
 - Includes sparkline charts generated via Matplotlib  
