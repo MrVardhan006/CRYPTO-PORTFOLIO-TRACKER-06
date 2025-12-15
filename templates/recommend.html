@@ -15,8 +15,9 @@
     </header>
     <main class="container">
       <h3>
-        This is a list of Coins by Market Cap & Volume are now best selling
+        This is a list of Coins by Market Cap & Volume, filtered by 7d % &gt; 2.0
       </h3>
+
       {% if recommended %}
       <table class="crypto-table">
         <thead>
@@ -26,23 +27,19 @@
             <th>Symbol</th>
             <th>Price (INR)</th>
             <th>24h %</th>
+            <th>7d %</th>
             <th>Market Cap</th>
             <th>Volume (24h)</th>
             <th>Trend</th>
           </tr>
         </thead>
         <tbody>
-          {% for coin in recommended if coin.price_change_percentage_24h is not
-          none and coin.price_change_percentage_24h > 1.5 %}
+          {% for coin in recommended %}
           <tr>
             <td>{{ loop.index }}</td>
             <td>
               <div class="coin-info">
-                <img
-                  src="{{ coin.image }}"
-                  width="22"
-                  alt="{{ coin.name }} logo"
-                />
+                <img src="{{ coin.image }}" width="22" alt="{{ coin.name }} logo" />
                 <div>
                   <strong>{{ coin.name }}</strong>
                 </div>
@@ -51,28 +48,20 @@
             <td>{{ coin.symbol|upper }}</td>
             <td>₹{{ '{:,.2f}'.format(coin.current_price) }}</td>
             <td>
-              <span
-                class="{{ 'positive' if (coin.price_change_percentage_24h or 0) > 0 else 'negative' }}"
-              >
-                {{ '{:.2f}'.format(coin.price_change_percentage_24h if
-                coin.price_change_percentage_24h is not none else 0) }}%
+              <span class="{{ 'positive' if (coin.price_change_percentage_24h or 0) > 0 else 'negative' }}">
+                {{ '{:.2f}'.format(coin.price_change_percentage_24h or 0) }}%
               </span>
             </td>
             <td>
-              ₹{{ '{:,.0f}'.format(coin.market_cap if coin.market_cap is not
-              none else 0) }}
+              <span class="{{ 'positive' if (coin.price_change_percentage_7d_in_currency or 0) > 0 else 'negative' }}">
+                {{ '{:.2f}'.format(coin.price_change_percentage_7d_in_currency or 0) }}%
+              </span>
             </td>
-            <td>
-              ₹{{ '{:,.0f}'.format(coin.total_volume if coin.total_volume is not
-              none else 0) }}
-            </td>
+            <td>₹{{ '{:,.0f}'.format(coin.market_cap or 0) }}</td>
+            <td>₹{{ '{:,.0f}'.format(coin.total_volume or 0) }}</td>
             <td class="trend-cell">
               <div class="trend-graph">
-                <img
-                  src="data:image/png;base64,{{ coin.sparkline_img }}"
-                  class="trend-img"
-                  alt="Sparkline for {{ coin.name }}"
-                />
+                <img src="data:image/png;base64,{{ coin.sparkline_img }}" class="trend-img" alt="Sparkline for {{ coin.name }}" />
               </div>
             </td>
           </tr>
@@ -83,18 +72,11 @@
       <div class="muted">No recommendations found.</div>
       {% endif %}
     </main>
+
     <style>
-      .coin-info {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-      .positive {
-        color: #21d07a;
-      }
-      .negative {
-        color: #ff6b6b;
-      }
+      .coin-info { display: flex; align-items: center; gap: 10px; }
+      .positive { color: #21d07a; }
+      .negative { color: #ff6b6b; }
     </style>
   </body>
 </html>
