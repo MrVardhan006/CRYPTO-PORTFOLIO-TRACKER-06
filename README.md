@@ -2,7 +2,7 @@
 
 By YAGANTI SREEVARDHAN REDDY
 
-(Project Duration: October 17,2025 – DECEMBER 17,2025)
+(Project Duration: October 15,2025 – DECEMBER 17,2025)
 
 # About This Project:
 
