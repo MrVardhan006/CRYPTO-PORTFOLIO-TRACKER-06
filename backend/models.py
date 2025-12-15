@@ -38,3 +38,11 @@ class WalletItem(db.Model):
     wallet_name = db.Column(db.String(120), default="Default Wallet")
     wallet_id = db.Column(db.Integer, default=1)
     user = db.relationship("User", backref="wallet_items")
+    
+class RealWorldAsset(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    name = db.Column(db.String(100), nullable=False)
+    coin_id = db.Column(db.String(100), nullable=False)
+    quantity = db.Column(db.Float, nullable=False)
+    created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
