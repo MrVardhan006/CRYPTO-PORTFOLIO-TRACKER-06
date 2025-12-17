@@ -39,9 +39,7 @@ This project demonstrates backend development, API handling, data processing, au
 
 7	Database Models	User, PortfolioItem, WalletItem models	SQLAlchemy	models.py
 
-8   Real world assests live valuation	CoinGecko API realworldassets.py
-
-9	Frontend UI	Complete Dark-Mode Neon Web UI	HTML, CSS	static/ & templates/
+8	Frontend UI	Complete Dark-Mode Neon Web UI	HTML, CSS	static/ & templates/
 
  # Key Features:
  Secure Authentication:
