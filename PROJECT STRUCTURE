@@ -9,7 +9,6 @@ crypto-portfolio-tracker-006/
 ├── portfolio.py
 ├── recommend.py
 ├── wallet.py
-├──realworldassets.py
 │
 │
 ├── static/
@@ -28,4 +27,3 @@ crypto-portfolio-tracker-006/
     ├── portfolio.html
     ├── recommend.html
     ├── wallet.html
-    ├──realworldassets.html
