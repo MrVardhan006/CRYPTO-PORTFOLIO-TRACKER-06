@@ -24,7 +24,6 @@ from auth import bp as auth_bp
 from recommend import bp as recommend_bp
 from wallet import bp as wallet_bp
 from assets import bp as assets_bp
-from realworldassets import bp as realworldassets_bp
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 app = Flask(
     __name__,
@@ -151,7 +150,6 @@ app.register_blueprint(auth_bp)
 app.register_blueprint(recommend_bp)
 app.register_blueprint(assets_bp) 
 app.register_blueprint(wallet_bp)
-app.register_blueprint(realworldassets_bp)  
 if __name__ == "__main__":
     with app.app_context():
         if not os.path.exists("app.db"):
